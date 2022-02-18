@@ -68,7 +68,7 @@
 			</Alias>
 			<Alias isActive="yes" isFolder="no">
 				<name>Pause Presentation</name>
-				<script>orator.killTimer()</script>
+				<script>orator.pausePresentation()</script>
 				<command></command>
 				<packageName></packageName>
 				<regex>^orate pause$</regex>
@@ -421,7 +421,6 @@ end
 function orator.printSegment(segment, ndx, editing, foreground)
   local editingOration = orator.editing
   local previewCount = 1000
-  local oration = orator.getOration(editingOration)
   local preview = #segment.command &gt; previewCount and string.sub(segment.command, 1, previewCount) .. "..."
     or #segment.command &gt; 0 and segment.command
     or "(empty)"
@@ -430,6 +429,7 @@ function orator.printSegment(segment, ndx, editing, foreground)
   cecho(string.format("&lt;white&gt;%s) &lt;%s&gt;%s ", ndx, textColor, preview))
 
   if editing then    
+    local oration = orator.getOration(editingOration)
     cechoLink(
       "&lt;yellow&gt;[e]",
       string.format("orator.prefillEditSegment(%s)", ndx),
@@ -617,12 +617,18 @@ end
 function orator.killTimer()
   if orator.presentation.delayTimer ~= nil then
     killTimer(orator.presentation.delayTimer)
-    orator.presentation.delayTimer = nil
+  end
+end
+
+function orator.pausePresentation()
+  if orator.presentation.delayTimer ~= nil then
+    orator.killTimer()
     orator.say("Your upcoming automated Segment delivery was cancelled. You'll need to ORATE to progress.")
   else
     orator.say("You do not have any automated Segments queued.")
   end
 end
+
 
 function orator.prepare(cmd)
   for k,v in pairs(orator.presentation.variables) do
