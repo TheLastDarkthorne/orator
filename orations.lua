@@ -1,0 +1,10 @@
+return {{[1] = {2},},
+{[ [[status]] ] = [[published]],[ [[placeholders]] ] = {3},[ [[title]] ] = [[Test Oration]],[ [[segments]] ] = {4},},
+{[1] = [[person1]],[2] = [[person2]],[3] = [[person3]],},
+{[1] = {5},[2] = {6},[3] = {7},[4] = {8},[5] = {9},},
+{[ [[command]] ] = [[Lorem ipsum {person1} dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.]],},
+{[ [[command]] ] = [[Ut enim {person2} ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]],},
+{[ [[command]] ] = [[Duis aute irure dolor {person3} in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.]],},
+{[ [[command]] ] = [[Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.]],},
+{[ [[command]] ] = [[Aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque. At elementum eu facilisis sed odio. Ut enim blandit volutpat maecenas volutpat blandit.]],},
+}

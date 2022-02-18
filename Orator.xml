@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.001">
+	<TriggerPackage>
+		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
+			<name>Started QQ</name>
+			<script>orator.saveOrations()</script>
+			<triggerType>0</triggerType>
+			<conditonLineDelta>0</conditonLineDelta>
+			<mStayOpen>0</mStayOpen>
+			<mCommand></mCommand>
+			<packageName></packageName>
+			<mFgColor>#ff0000</mFgColor>
+			<mBgColor>#ffff00</mBgColor>
+			<mSoundFile></mSoundFile>
+			<colorTriggerFgColor>#000000</colorTriggerFgColor>
+			<colorTriggerBgColor>#000000</colorTriggerBgColor>
+			<regexCodeList>
+				<string>You grow still and begin to silently pray for preservation of your soul while you are out of the land.</string>
+			</regexCodeList>
+			<regexCodePropertyList>
+				<integer>3</integer>
+			</regexCodePropertyList>
+		</Trigger>
+	</TriggerPackage>
+	<TimerPackage />
+	<AliasPackage>
+		<Alias isActive="yes" isFolder="no">
+			<name>Toggle Safemode</name>
+			<script>orator.toggleSafemode(matches[2] == "on")</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^oration safemode (on|off)$</regex>
+		</Alias>
+		<Alias isActive="yes" isFolder="no">
+			<name>Load</name>
+			<script>orator.loadOrations()</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^oration load$</regex>
+		</Alias>
+		<Alias isActive="yes" isFolder="no">
+			<name>Save</name>
+			<script>orator.saveOrations()</script>
+			<command></command>
+			<packageName></packageName>
+			<regex>^oration save$</regex>
+		</Alias>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Presentation</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>Orate Status</name>
+				<script>orator.presentationStatus()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^orate status$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Orate Step</name>
+				<script>orator.orate(tonumber(matches[2]))</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^orate step (\d+)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Pause Presentation</name>
+				<script>orator.killTimer()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^orate pause$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Orate</name>
+				<script>orator.orate()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^orate$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Begin Presentation</name>
+				<script>orator.beginPresentation()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^orate begin$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>End Presentation</name>
+				<script>orator.stopPresentation()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^orate stop$</regex>
+			</Alias>
+		</AliasGroup>
+		<AliasGroup isActive="yes" isFolder="yes">
+			<name>Management</name>
+			<script></script>
+			<command></command>
+			<packageName></packageName>
+			<regex></regex>
+			<Alias isActive="yes" isFolder="no">
+				<name>Create New Oration</name>
+				<script>orator.createOration(matches[2])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration new (.*)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Edit Placeholders</name>
+				<script>local placeholders = {}
+for placeholder in string.gmatch(matches[3], "[^%s]+") do
+  table.insert(placeholders, placeholder)
+end
+
+orator.setOrationPlaceholders( tonumber(matches[2]), placeholders)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration (\d+) set placeholders (.*)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Set Oration Placeholder</name>
+				<script>orator.setPlaceholderValue(matches[2])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^placeholder set ([\w\d]+)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Show</name>
+				<script>orator.showOration(tonumber(matches[2]))</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration (\d+) show$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Set Segment Delay</name>
+				<script>local oration, segment, delay = matches[2], matches[3], matches[4]
+orator.setSegmentDelay(tonumber(oration), tonumber(segment), tonumber(delay))</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration (\d+) segment (\d+) set delay (\d+)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Set Segment Command</name>
+				<script>local oration, segment, command = matches[2], matches[3], matches[4]
+orator.setSegmentCommand(tonumber(oration), tonumber(segment), command)</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration (\d+) segment (\d+) set command (.*)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>List</name>
+				<script>orator.listOrations()</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration (list|ls)$</regex>
+			</Alias>
+		</AliasGroup>
+	</AliasPackage>
+	<ActionPackage />
+	<ScriptPackage>
+		<Script isActive="yes" isFolder="no">
+			<name>init/utils</name>
+			<packageName></packageName>
+			<script>orator = orator or {}
+orator.safemode = orator.safemode or false
+orator.orations = orator.orations or {}
+orator.saveFile = "orations.lua"
+
+function orator.toggleSafemode(toggle)
+  orator.safemode = toggle
+  orator.say(string.format("Turned Safe Mode %s", toggle and "ON" or "OFF"))
+end
+
+function orator.loadOrations()
+  if (io.exists(string.format("%s/%s", getMudletHomeDir(), orator.saveFile))) then
+   table.load(string.format("%s/%s", getMudletHomeDir(), orator.saveFile), orator.orations)
+   orator.say("Loaded orations.")
+  else
+    orator.say("No saved orations found.")
+  end
+end
+
+function orator.saveOrations()
+  table.save(string.format("%s/%s", getMudletHomeDir(), orator.saveFile), orator.orations)
+  orator.say("Successfully saved orations.")
+end
+
+function orator.say(msg)
+  cecho(
+    string.format("&lt;gold&gt;(orator): &lt;white&gt;%s\n", msg)
+  )
+end
+
+function orator.prefill(text)
+  clearCmdLine()
+  appendCmdLine(text)
+end
+
+function table.swap(tbl, a, b)
+  local tmp = tbl[a]
+  tbl[a] = tbl[b]
+  tbl[b] = tmp
+end
+
+function orator.deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[orator.deepcopy(orig_key)] = orator.deepcopy(orig_value)
+        end
+        setmetatable(copy, orator.deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>Orations</name>
+			<packageName></packageName>
+			<script>function orator.getOration(ndx)
+  local oration = orator.orations[ndx]
+  if oration == nil then
+    orator.say("Attempting to access a nil oration.")
+  else
+    return orator.orations[ndx]
+  end
+end
+
+function orator.isValidOration(ndx)
+  return orator.getOration(ndx) ~= nil
+end
+
+function orator.getEditingOration()
+  return orator.orations[orator.editing]
+end
+
+function orator.getOrationTitle(oration)
+  if oration.title == nil then
+    oration.status = "disabled"
+    oration.title = "untitled"
+  end
+  local color = oration.status == "published" and "green"
+    or oration.status == "disabled" and "red"
+    or "cyan"
+  return string.format("&lt;%s&gt;%s", color, oration.title)
+end
+
+function orator.getAvailableOrationLinks(oration, ndx)
+  local links = {}
+  if oration.status == "published" then
+    links.load = string.format("orator.loadOration(%s)", ndx)
+    links["set to draft"] = string.format("orator.unpublishOration(%s)", ndx)
+  else
+    links.publish = string.format("orator.publishOration(%s)", ndx)
+    links.edit = string.format("orator.editOration(%s)", ndx)
+  end
+  return links
+end
+
+function orator.showOration(ndx)
+  local oration = orator.getOration(ndx)
+  orator.editing = ndx
+  orator.say(string.format("%s (%s)", oration.title, ndx))
+  orator.listSegments(false)
+end
+
+function orator.createOration(title)
+  table.insert(orator.orations, {
+    title=title,
+    status="draft",
+    segments={{
+      command="Your first segment. Change this!",
+    }}
+  })
+  orator.say(string.format("Created new oration with title %s", title))
+end
+
+function orator.editOration(ndx)
+  orator.editing = ndx or orator.editing or 0
+  if orator.editing == 0 then
+    orator.say("Something went wrong editing this oration. Please try again.")
+    return
+  end
+  local oration = orator.getOration(orator.editing)
+  orator.say(string.format("Now editing %s (%s)", oration.title, orator.editing))
+  orator.listSegments(true)
+  if oration.placeholders then
+    cecho("&lt;white&gt;Placeholders: &lt;DarkSlateGrey&gt;" .. table.concat(oration.placeholders, ","))
+    echo("\n")
+  end
+  cechoLink(
+    "&lt;gold&gt;[Edit placeholders]",
+    string.format("orator.prefillEditOrationPlaceholders(%s)", orator.editing),
+    "Edit placeholders used in this oration",
+    true
+  )
+  echo("\n")
+end
+
+function orator.prefillEditOrationPlaceholders(ndx)
+  local oration = orator.getOration(ndx)
+  local placeholders = oration.placeholders or {}
+  orator.prefill(string.format("oration %s set placeholders %s", ndx, table.concat(placeholders, " ")))
+end
+
+function orator.setOrationPlaceholders(ndx, placeholders)
+  local oration = orator.getOration(ndx)
+  orator.orations[ndx].placeholders = placeholders
+  orator.say(string.format("Successfully saved placeholders for %s", oration.title))
+  orator.editOration()
+end
+
+function orator.printOration(oration, ndx)
+  if oration.status == "published" then
+    cechoLink(
+      string.format("&lt;white&gt;%s) %s ", ndx, orator.getOrationTitle(oration)),
+      string.format("orator.showOration(%s)", ndx),
+      "Show segments",
+      true
+    )
+  else
+    cecho(string.format("&lt;white&gt;%s) %s ", ndx, orator.getOrationTitle(oration)))
+  end
+  for k,v in pairs(orator.getAvailableOrationLinks(oration, ndx)) do
+    cechoLink(
+      string.format("&lt;blue&gt;(%s) ", k), 
+      v,
+      k, 
+      true
+    )
+  end
+  echo("\n")
+end
+
+function orator.listOrations()
+  orator.say("You have prepared the following orations")
+  for k,v in pairs(orator.orations) do
+    orator.printOration(v, k)
+  end
+  echo("\n")
+end
+
+function orator.publishOration(oration)
+  if orator.isValidOration(oration) then
+    orator.orations[oration].status = "published"
+    orator.listOrations()
+  else
+    orator.say("Attempting to publish an invalid oration.")
+  end
+end
+
+function orator.unpublishOration(oration)
+  if orator.isValidOration(oration) then
+    orator.orations[oration].status = "draft"
+    orator.listOrations()
+  else
+    orator.say("Attempting to publish an invalid oration.")
+  end
+end</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>Segments</name>
+			<packageName></packageName>
+			<script>function orator.prefillEditSegment(ndx)
+  local editingOration = orator.editing
+  local currentCommand = orator.orations[editingOration].segments[ndx].command
+  orator.prefill(string.format("oration %s segment %s set command %s", editingOration, ndx, currentCommand))
+end
+
+function orator.prefillEditSegmentDelay(ndx)
+  local editingOration = orator.editing
+  local currentDelay = orator.orations[editingOration].segments[ndx].delay or 1
+  orator.prefill(string.format("oration %s segment %s set delay %s", editingOration, ndx, currentDelay))
+end
+
+function orator.setSegmentCommand(oration, ndx, command)
+  orator.orations[oration].segments[ndx].command = command
+  orator.editOration()
+end
+
+function orator.setSegmentDelay(oration, ndx, delay)
+  orator.orations[oration].segments[ndx].delay = delay &gt; 0 and delay or nil
+  orator.editOration()
+end
+
+function orator.swapSegments(oration, ndxA, ndxB)
+  local segmentA, segmentB = 
+    orator.orations[oration].segments[ndxA],
+    orator.orations[oration].segments[ndxB]
+  orator.orations[oration].segments[ndxA] = segmentB
+  orator.orations[oration].segments[ndxB] = segmentA
+end
+
+function orator.moveSegmentUp(ndx)
+  if ndx &lt;= 1 then
+    return
+  else
+    orator.swapSegments(orator.editing, ndx, ndx - 1)
+    orator.editOration()
+  end
+end
+
+function orator.moveSegmentDown(ndx)
+  local oration = orator.getOration(orator.editing)
+  if ndx == #oration.segments then
+    return
+  else
+    orator.swapSegments(orator.editing, ndx, ndx + 1)
+    orator.editOration()
+  end
+end
+
+function orator.printSegment(segment, ndx, editing, foreground)
+  local editingOration = orator.editing
+  local previewCount = 1000
+  local oration = orator.getOration(editingOration)
+  local preview = #segment.command &gt; previewCount and string.sub(segment.command, 1, previewCount) .. "..."
+    or #segment.command &gt; 0 and segment.command
+    or "(empty)"
+  local textColor = foreground or "DarkSlateGrey"
+    
+  cecho(string.format("&lt;white&gt;%s) &lt;%s&gt;%s ", ndx, textColor, preview))
+
+  if editing then    
+    cechoLink(
+      "&lt;yellow&gt;[e]",
+      string.format("orator.prefillEditSegment(%s)", ndx),
+      "Edit segment",
+      true
+    )
+    cechoLink(
+      "&lt;red&gt;[d]",
+      string.format("orator.deleteSegment(%s)", ndx),
+      "Delete segment",
+      true
+    )
+    if ndx &gt; 1 then
+      cechoLink(
+        "&lt;blue&gt;[▲]",
+        string.format("orator.moveSegmentUp(%s)", ndx),
+        "Move segment up",
+        true
+      )
+    end
+    if ndx &lt; #oration.segments then
+      cechoLink(
+        "&lt;blue&gt;[▼]",
+        string.format("orator.moveSegmentDown(%s)", ndx),
+        "Move segment down",
+        true
+      )
+    end
+    cechoLink(
+      "&lt;blue&gt;[+]",
+      string.format("orator.addSegment(%s)", ndx),
+      "Insert new segment before",
+      true
+    )
+    cechoLink(
+      "&lt;blue&gt;[++]",
+      string.format("orator.addSegment(%s)", ndx + 1),
+      "Insert new segment after",
+      true
+    )
+    cechoLink(
+      "&lt;blue&gt;[⏰]",
+      string.format("orator.prefillEditSegmentDelay(%s)", ndx),
+      segment.delay and string.format("Current delay: %s", segment.delay) or "Add delay to automate next segment",
+      true
+    )
+  end
+  if not editing and segment.delay then
+    cecho(string.format("&lt;cyan&gt;(⏰ %s seconds)", segment.delay))
+  end
+  echo("\n")
+end
+
+function orator.listSegments(editing)
+  local oration = orator.getEditingOration()
+  cecho(orator.getOrationTitle(oration))
+  echo("\n")
+  oration.segments = oration.segments or {}
+  for k,v in pairs(oration.segments) do
+    orator.printSegment(v, k, editing)
+  end
+  echo("\n")
+end
+
+function orator.addSegment(ndx)
+  local segment = {
+    command="",
+    delay=nil,
+  }
+  table.insert(orator.orations[orator.editing].segments, ndx, segment)
+  orator.editOration()
+end
+
+function orator.deleteSegment(ndx)
+  table.remove(orator.orations[orator.editing].segments, ndx)
+  orator.editOration()
+end</script>
+			<eventHandlerList />
+		</Script>
+		<Script isActive="yes" isFolder="no">
+			<name>Presentation</name>
+			<packageName></packageName>
+			<script>function orator.loadOration(oration)
+  local presenting = orator.getOration(oration)
+  orator.presentation = orator.deepcopy(presenting)
+  orator.presentation.step = 0
+  orator.presentation.variables = {}
+  orator.say(string.format("&lt;green&gt;%s &lt;white&gt;now loaded and ready to present.", presenting.title))
+end
+
+function orator.collectPlaceholders()
+  if orator.presentation == nil then
+    orator.say("You are not currently presenting any orations.")
+    return
+  end
+  local placeholder = orator.presentation.placeholders[1]
+  orator.say(string.format("Please provide a value for the %s placeholder", placeholder))
+  orator.prefill(string.format("placeholder set ", placeholder))
+end
+
+function orator.setPlaceholderValue(value)
+  if orator.presentation == nil then
+    orator.say("You are not currently presenting any orations.")
+    return
+  end
+  orator.presentation.variables[table.remove(orator.presentation.placeholders, 1)] = value
+  orator.beginPresentation()
+end
+
+function orator.beginPresentation(force)
+  if orator.presentation == nil then
+    orator.say("You are not currently presenting any orations.")
+    return
+  end
+  if orator.presentation.placeholders and #orator.presentation.placeholders &gt; 0 then
+    orator.collectPlaceholders()
+    return
+  end
+  if orator.presentation.step &gt; 0 and not force then
+    orator.say("You are attempting to RESTART an oration already in progress. Use ORATION BEGIN FORCE to do so. This is for your safety so you don't look silly.")
+  else
+    orator.presentation.step = 1
+    local firstSegment = orator.presentation.segments[1]
+    orator.say("We're ready to begin, use ORATE to step through your oration. Good luck!")
+    orator.say("First segment:")
+    orator.printSegment(firstSegment, 1, false)
+  end
+end
+
+function orator.presentationStatus()
+  if orator.presentation == nil then
+    orator.say("You are not currently presenting any orations.")
+    return
+  end
+  for k,v in pairs(orator.presentation.segments) do
+    orator.printSegment(
+      v, 
+      k, 
+      false, 
+      orator.presentation.step == k and "dark_goldenrod"
+        or orator.presentation.step &lt; k and "lawn_green"
+    )
+  end
+end
+
+function orator.orate(step)
+  if orator.presentation == nil then
+    orator.say("You are not currently presenting any orations.")
+    return
+  end
+  -- If there's a delay but we orated early, kill the timer
+  orator.killTimer()
+  if step ~= nil then
+    orator.presentation.step = step
+  end
+  local segment = orator.presentation.segments[orator.presentation.step]
+  if segment == nil then
+    orator.say("Attempting to access a non-existent segment. Something fishy is happening.")
+    return
+  end
+  if orator.safemode then
+    echo(orator.prepare(segment.command))
+    echo("\n")
+  else 
+    send(orator.prepare(segment.command))
+  end
+  orator.presentation.step = orator.presentation.step + 1
+  if orator.presentation.step &gt; #orator.presentation.segments then
+    orator.completeOration()
+    return
+  end
+  if segment.delay then
+    orator.presentation.delayTimer = tempTimer(segment.delay, [[ orator.orate() ]])
+  end
+  local nextSegment = orator.presentation.segments[orator.presentation.step]
+  orator.say("Next segment:")
+  orator.printSegment(nextSegment, orator.presentation.step, false)
+end
+
+function orator.completeOration()
+  orator.say(string.format("That's the end of %s. Hope it went well!", orator.presentation.title))
+  orator.presentation = nil
+end
+
+function orator.killTimer()
+  if orator.presentation.delayTimer ~= nil then
+    killTimer(orator.presentation.delayTimer)
+    orator.presentation.delayTimer = nil
+    orator.say("Your upcoming automated Segment delivery was cancelled. You'll need to ORATE to progress.")
+  else
+    orator.say("You do not have any automated Segments queued.")
+  end
+end
+
+function orator.prepare(cmd)
+  for k,v in pairs(orator.presentation.variables) do
+    cmd = cmd:gsub("{" .. k .. "}", v)
+  end
+  return cmd
+end 
+
+function orator.stopPresentation()
+  orator.completeOration()
+end</script>
+			<eventHandlerList />
+		</Script>
+	</ScriptPackage>
+	<KeyPackage />
+	<HelpPackage>
+		<helpURL></helpURL>
+	</HelpPackage>
+</MudletPackage>
