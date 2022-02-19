@@ -4,7 +4,9 @@
 	<TriggerPackage>
 		<Trigger isActive="yes" isFolder="no" isTempTrigger="no" isMultiline="no" isPerlSlashGOption="no" isColorizerTrigger="no" isFilterTrigger="no" isSoundTrigger="no" isColorTrigger="no" isColorTriggerFg="no" isColorTriggerBg="no">
 			<name>Started QQ</name>
-			<script>orator.saveOrations()</script>
+			<script>if orator and orator.orations and #orator.orations &gt; 0 then
+  orator.saveOrations()
+end</script>
 			<triggerType>0</triggerType>
 			<conditonLineDelta>0</conditonLineDelta>
 			<mStayOpen>0</mStayOpen>
@@ -157,6 +159,20 @@ orator.setSegmentCommand(tonumber(oration), tonumber(segment), command)</script>
 				<packageName></packageName>
 				<regex>^oration (list|ls)$</regex>
 			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Rename Oration</name>
+				<script>orator.renameOration(tonumber(matches[2]), matches[3])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration rename (\d+) (.*)$</regex>
+			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Delete Oration</name>
+				<script>orator.deleteOration(tonumber(matches[2]))</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration delete (\d+)$</regex>
+			</Alias>
 		</AliasGroup>
 	</AliasPackage>
 	<ActionPackage />
@@ -255,12 +271,14 @@ end
 function orator.getAvailableOrationLinks(oration, ndx)
   local links = {}
   if oration.status == "published" then
-    links.load = string.format("orator.loadOration(%s)", ndx)
-    links["set to draft"] = string.format("orator.unpublishOration(%s)", ndx)
+    table.insert(links, {"load", string.format("orator.loadOration(%s)", ndx)})
+    table.insert(links, {"set to draft", string.format("orator.unpublishOration(%s)", ndx)})
   else
-    links.publish = string.format("orator.publishOration(%s)", ndx)
-    links.edit = string.format("orator.editOration(%s)", ndx)
+    table.insert(links, {"publish", string.format("orator.publishOration(%s)", ndx)})
+    table.insert(links, {"edit", string.format("orator.editOration(%s)", ndx)})
   end
+  table.insert(links, {"rename", string.format("orator.prefill('oration rename %s ')", ndx)})
+  table.insert(links, {"delete", string.format("orator.prefill('oration delete %s')", ndx)})
   return links
 end
 
@@ -330,9 +348,9 @@ function orator.printOration(oration, ndx)
   end
   for k,v in pairs(orator.getAvailableOrationLinks(oration, ndx)) do
     cechoLink(
-      string.format("&lt;blue&gt;(%s) ", k), 
-      v,
-      k, 
+      string.format("&lt;blue&gt;(%s) ", v[1]), 
+      v[2],
+      v[1], 
       true
     )
   end
@@ -362,6 +380,26 @@ function orator.unpublishOration(oration)
     orator.listOrations()
   else
     orator.say("Attempting to publish an invalid oration.")
+  end
+end
+
+function orator.renameOration(ndx, title)
+  if orator.isValidOration(ndx) then
+    orator.orations[ndx].title = title
+    orator.say("Successfully renamed this oration.")
+    orator.listOrations()
+  else
+    orator.say("You are trying to rename a nonexistent oration!")
+  end
+end
+
+function orator.deleteOration(ndx)
+  if orator.isValidOration(ndx) then
+    orator.orations[ndx] = nil
+    orator.say("Successfully deleted this oration.")
+    orator.listOrations()
+  else
+    orator.say("You are trying to delete a nonexistent oration!")
   end
 end</script>
 			<eventHandlerList />
