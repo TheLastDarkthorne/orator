@@ -180,7 +180,8 @@ orator.setSegmentCommand(tonumber(oration), tonumber(segment), command)</script>
 		<Script isActive="yes" isFolder="no">
 			<name>init/utils</name>
 			<packageName></packageName>
-			<script>orator = orator or {}
+			<script>-- init/utils
+orator = orator or {}
 orator.safemode = orator.safemode or false
 orator.orations = orator.orations or {}
 orator.saveFile = "orations.lua"
