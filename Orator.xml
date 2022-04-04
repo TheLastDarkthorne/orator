@@ -180,6 +180,13 @@ orator.setSegmentCommand(tonumber(oration), tonumber(segment), command)</script>
 				<packageName></packageName>
 				<regex>^oration export (\d+)$</regex>
 			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Import Oration</name>
+				<script>orator.importOration(matches[2])</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration import (.*)$</regex>
+			</Alias>
 		</AliasGroup>
 	</AliasPackage>
 	<ActionPackage />
