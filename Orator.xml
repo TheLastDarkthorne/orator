@@ -173,6 +173,13 @@ orator.setSegmentCommand(tonumber(oration), tonumber(segment), command)</script>
 				<packageName></packageName>
 				<regex>^oration delete (\d+)$</regex>
 			</Alias>
+			<Alias isActive="yes" isFolder="no">
+				<name>Export Oration</name>
+				<script>orator.exportOration(tonumber(matches[2]))</script>
+				<command></command>
+				<packageName></packageName>
+				<regex>^oration export (\d+)$</regex>
+			</Alias>
 		</AliasGroup>
 	</AliasPackage>
 	<ActionPackage />
@@ -203,6 +210,24 @@ end
 function orator.saveOrations()
   table.save(string.format("%s/%s", getMudletHomeDir(), orator.saveFile), orator.orations)
   orator.say("Successfully saved orations.")
+end
+
+function orator.exportOration(oration)
+  local exportSource = orator.deepcopy(orator.orations[oration])
+  local destFile = string.format("%s/%s", getMudletHomeDir(), exportSource.title .. ".lua")
+  table.save(destFile, exportSource)
+  orator.say(string.format("Successfully exported %s to %s", exportSource.title, destFile))
+end
+
+function orator.importOration(source)
+  if (io.exists(source)) then
+    local oration = {}
+    table.load(source, oration)
+    table.insert(orator.orations, oration)
+    orator.say(string.format("Successfully imported %s.", oration.title))
+  else
+    orator.say("No saved orations found.")
+  end
 end
 
 function orator.say(msg)
@@ -280,6 +305,7 @@ function orator.getAvailableOrationLinks(oration, ndx)
   end
   table.insert(links, {"rename", string.format("orator.prefill('oration rename %s ')", ndx)})
   table.insert(links, {"delete", string.format("orator.prefill('oration delete %s')", ndx)})
+  table.insert(links, {"export", string.format("orator.prefill('oration export %s')", ndx)})
   return links
 end
 
