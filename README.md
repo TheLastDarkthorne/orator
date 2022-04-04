@@ -32,6 +32,7 @@ Once a Presentation has begun, you can use the `orate` command to walk through y
 * `orate status` - prints out all Segments in your current presentation (grey ones were already delivered, the yellow one is coming up next, green ones are coming up in the future)
 * `orate step <number>` - deliver a specific Segment. This basically forces the Presentation into a certain step (handy if you need to skip one or more Segments, or if you need to go back)
 * `orate pause` - if your next Segment will be delivered on a timer due to a delay that you configured, this will kill that timer and not progress until you manually `orate`
+* `oration safemode (on|off)` - Turn SAFEMODE on or off. When in safemode, any oration segments delivered will be echoed to you instead of sent to the game. One time while practising an oration in the privacy of an office, a certain Divine was watching me and questioning my sanity. Hence the birth of SAFEMODE.
 
 ## Giving back
 This is given freely to the Achaean community, and I'm hoping it helps people. If you want to contribute by making this better, please submit pull requests! If you have feedback for how this can be better but no time or desire to contribute code, let me know! If you want to say thanks with small credit donations, Tysel wouldn't mind that.
